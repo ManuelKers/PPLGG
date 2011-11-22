@@ -16,7 +16,7 @@ import agents.RoomAgent;
 
 public class PPLGG {
 
-    private static int width = 100;
+    private static int width = 80;
     private static int height = 20;
     
     public enum Terrain {
