@@ -8,17 +8,18 @@ public class CrossExtenderAgent extends AbstractAgent {
 
     private Position basePosition;
     
-    public CrossExtenderAgent(MapManager newManager) {
-        super(newManager);
-        moveToRandomPosition();
+    public CrossExtenderAgent(MapManager newManager, int tokens, Position spawnPos, int waitingPeriod) {
+        super(newManager, tokens, spawnPos, waitingPeriod); 
+        
+        //moveToRandomPosition();
         basePosition = new Position(x,y);
-        setTokens( 10 );
+      
     }
 
     @Override
     public void performStep() {
         
-        if (myManager.outsideBoundaries(x,y)) {
+        if (this.myManager.outsideBoundaries(x,y)) {
             x = basePosition.x;
             y = basePosition.y;
         }
