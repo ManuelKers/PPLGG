@@ -4,8 +4,17 @@ import pplgg.MapManager;
 import pplgg.Position;
 import pplgg.PPLGG.Terrain;
 
+
+//class RoomAgent -- creates rooms if there is space for it, moves randomly to a new position
 public class RoomAgent extends AbstractAgent {
 
+	
+	int minWidth = 3;
+	int maxWidth = 7;
+			
+	int minHeight = 3;
+	int maxHeight = 7;
+	
 	int roomWidth;
 	int roomHeight;
 	
@@ -14,8 +23,8 @@ public class RoomAgent extends AbstractAgent {
 
 	public RoomAgent(MapManager newManager, int tokens, Position spawnPos, int waitingPeriod) {
         super(newManager, tokens, spawnPos, waitingPeriod);
-		roomWidth = 3;
-		roomHeight = 3;
+		roomWidth = (minWidth + (int)(Math.random()*(maxWidth-minWidth)));
+		roomHeight = (minHeight + (int)(Math.random()*(maxHeight-minHeight)));
 		moveTo((int) (Math.random() * askForMapWidth()), (int)(Math.random() * askForMapHeight()));
 		// TODO Auto-generated constructor stub
 	}
@@ -35,11 +44,14 @@ public class RoomAgent extends AbstractAgent {
 		}
 		}
 		
+		
 		if (empty){
 			makeRoom();
-			setTokens(tokens--);
+			this.decreaseTokens(1);
 		}
+		else this.decreaseTokens(1);
 		}
+		
 		moveTo((int) (Math.random() * askForMapWidth()), (int)(Math.random() * askForMapHeight()));
 	}
 	
