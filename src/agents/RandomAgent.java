@@ -1,14 +1,15 @@
 package agents;
 
 import pplgg.MapManager;
+import pplgg.Position;
 import pplgg.PPLGG.Terrain;
 
 public class RandomAgent extends AbstractAgent {
     
-    public RandomAgent(MapManager newManager) {
-        super(newManager);
+    public RandomAgent(MapManager newManager, int tokens, Position spawnPos, int waitingPeriod) {
+        super(newManager, tokens, spawnPos, waitingPeriod); 
         moveToRandomPosition();
-        setTokens( 10 );
+        
     }
 
     @Override
