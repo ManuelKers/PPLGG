@@ -1,6 +1,5 @@
 package pplgg.ga;
 
-// jeppes comment: looking good!
 public class FitnessTraverse {
-    //Conflict! Please! Still no conflict
+    //Conflict! Please! I want trouble!
 }
