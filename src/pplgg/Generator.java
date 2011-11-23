@@ -27,8 +27,8 @@ public class Generator {
         for (int i=0; i<noAgents; i++) {
             AgentParams parameters = new AgentParams();
             //TODO: collect possible agents from agent package
-           // switch ((int) (Math.random()*6)) {
-            switch(5){
+           switch ((int) (Math.random()*6)) {
+            //switch(5){
                 case 0:
                     parameters.agentClass = RandomCrawlAgent.class;
                     break;
