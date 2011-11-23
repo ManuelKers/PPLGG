@@ -1,6 +1,7 @@
 package agents;
 
 import pplgg.MapManager;
+import pplgg.Position;
 import pplgg.PPLGG.Terrain;
 
 public class RoomAgent extends AbstractAgent {
@@ -9,30 +10,16 @@ public class RoomAgent extends AbstractAgent {
 	int roomHeight;
 	
 	
-	public RoomAgent() {
-		// TODO Auto-generated constructor stub
-	}
 
-	public RoomAgent(MapManager newManager) {
-		super(newManager);
+
+	public RoomAgent(MapManager newManager, int tokens, Position spawnPos, int waitingPeriod) {
+        super(newManager, tokens, spawnPos, waitingPeriod);
 		roomWidth = 3;
 		roomHeight = 3;
 		moveTo((int) (Math.random() * askForMapWidth()), (int)(Math.random() * askForMapHeight()));
 		// TODO Auto-generated constructor stub
 	}
 	
-	public RoomAgent(MapManager newManager,int minWidth,int maxWidth,int minHeight, int maxHeight, int tokens){
-	super(newManager);
-	// generates the room sizes for this particular agent instance
-	roomWidth = minWidth + (int) (Math.random() * (maxWidth-minWidth));
-	roomHeight = minHeight + (int) (Math.random() * (maxHeight-minHeight));
-	
-	// Initiates the room agent at a random place on the map
-	moveTo((int) (Math.random() * askForMapWidth()), (int)(Math.random() * askForMapHeight()));
-	
-	this.tokens = tokens;
-	// TODO Auto-generated constructor stub
-}
 
 	@Override
 	public void performStep() {
