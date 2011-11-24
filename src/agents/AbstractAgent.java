@@ -65,4 +65,64 @@ public abstract class AbstractAgent {
             myManager.deregisterAgent(this);
     }
     
+    protected int randomBetween(int min, int max){
+    	int i = min + (int)Math.random()*(max-min);
+    	return i;
+    }
+    
+    protected boolean actionIsRequired(int i){
+    	boolean b = false;
+    	switch(i) {
+    	
+    		case 1:
+    			if (this.requestMapInformation(x, y)==Terrain.SOLID)
+    				b = true;
+    			break;
+		
+    		case 2:
+    			if (this.requestMapInformation(x, y)==Terrain.EMPTY)
+    				b = true;
+    			break;	
+    	}
+    	return b;
+    }
+    
+    protected void makeMove(int type){
+    	switch(type){
+    		
+    	// move from left to right, when on border, go one line down, start from x=0
+    	case 1:
+    		if ((x++)>this.askForMapWidth()-1){
+    			x = 0;
+    			if ((y+1)>this.askForMapHeight()-1) y = 0;
+    			
+    			else y++;
+    	}
+    		else x++;
+    		break;
+    }
+    }
+    
+    protected boolean isOnMap(int x,int y){
+    	boolean b = false;
+    	if (x>=0 && x<this.askForMapWidth() && y >= 0 && y < this.askForMapHeight()) b = true;
+    	return b;
+    }
+    
+    protected void doAction(int action, int actionParameter){
+    	switch(action){
+    	// case 1 if solid is found, bomb is triggered
+    	case 1:
+    		for (int x = 0; x < actionParameter; x++){
+    			for (int y = 0; y < actionParameter; y++){
+    				int newX = this.x + x;
+    				int newY = this.y + y;
+    				if (isOnMap(newX,newY)) this.sendMapRequest(newX, newY, Terrain.SOLID);
+    			}
+    		}
+    		
+    		break;
+    }
+    }
+    
 }
