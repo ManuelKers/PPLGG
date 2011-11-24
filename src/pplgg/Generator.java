@@ -5,10 +5,13 @@ import java.util.ArrayList;
 import java.util.PriorityQueue;
 
 import agents.AbstractAgent;
+import agents.CrossExtenderAgent;
 import agents.GapAgent;
 import agents.GroundRaiseAgent;
 import agents.PlayablePathAgent;
+import agents.RandomAgent;
 import agents.RandomCrawlAgent;
+import agents.RoomAgent;
 
 
 
@@ -24,7 +27,8 @@ public class Generator {
         for (int i=0; i<noAgents; i++) {
             AgentParams parameters = new AgentParams();
             //TODO: collect possible agents from agent package
-            switch ((int) (Math.random()*4)) {
+           switch ((int) (Math.random()*6)) {
+            //switch(5){
                 case 0:
                     parameters.agentClass = RandomCrawlAgent.class;
                     break;
@@ -37,6 +41,16 @@ public class Generator {
                 case 3:
                     parameters.agentClass = GapAgent.class;
                     break;
+                case 4:
+                	parameters.agentClass = CrossExtenderAgent.class;
+                	break;
+                case 5:
+                	parameters.agentClass = RoomAgent.class;
+                	break;
+                case 6:
+                	parameters.agentClass = RandomAgent.class;
+                	break;
+                	
                 default:
                     parameters.agentClass = null;
                     break;
