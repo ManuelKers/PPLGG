@@ -12,6 +12,7 @@ import agents.PlayablePathAgent;
 import agents.RandomAgent;
 import agents.RandomCrawlAgent;
 import agents.RoomAgent;
+import agents.SwipingBombAgent;
 
 
 
@@ -20,6 +21,9 @@ public class Generator {
 
     public static int width;
     public static int height;
+    
+    public static int[] testSubjects = {1,7};
+    
 
     public static Generator randomGenerator() {
         int noAgents = (int) (1+10 * Math.random());
@@ -27,8 +31,9 @@ public class Generator {
         for (int i=0; i<noAgents; i++) {
             AgentParams parameters = new AgentParams();
             //TODO: collect possible agents from agent package
-           switch ((int) (Math.random()*6)) {
-            //switch(5){
+           //switch ((int) (Math.random()*7)) {
+            switch(7){
+            //switch (testSubjects[(int)Math.random()*testSubjects.length]){
                 case 0:
                     parameters.agentClass = RandomCrawlAgent.class;
                     break;
@@ -49,6 +54,9 @@ public class Generator {
                 	break;
                 case 6:
                 	parameters.agentClass = RandomAgent.class;
+                	break;
+                case 7:
+                	parameters.agentClass = SwipingBombAgent.class;
                 	break;
                 	
                 default:

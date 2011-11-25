@@ -12,6 +12,8 @@ public abstract class AbstractAgent {
     protected MapManager myManager;
     protected int tokens;
     protected int waitingPeriod;
+    protected int width;
+    protected int height;
     
     //start at top left
     public AbstractAgent(MapManager newManager, int tokens, Position spawnPos, int waitingPeriod) {
@@ -20,6 +22,8 @@ public abstract class AbstractAgent {
         y = spawnPos.y;
         this.waitingPeriod = waitingPeriod;
         registerWithManager( newManager );
+        width = this.askForMapWidth();
+        height = this.askForMapHeight();
     }
     
     public void registerWithManager(MapManager manager) {
@@ -66,7 +70,7 @@ public abstract class AbstractAgent {
     }
     
     protected int randomBetween(int min, int max){
-    	int i = min + (int)Math.random()*(max-min);
+    	int i = min + (int)(Math.random()*(max-min));
     	return i;
     }
     
@@ -74,45 +78,88 @@ public abstract class AbstractAgent {
     	boolean b = false;
     	switch(i) {
     	
+    	case 0:
+			if (this.requestMapInformation(x, y)==Terrain.EMPTY)
+				b = true;
+			break;
+    	
+    	
     		case 1:
     			if (this.requestMapInformation(x, y)==Terrain.SOLID)
     				b = true;
     			break;
 		
-    		case 2:
-    			if (this.requestMapInformation(x, y)==Terrain.EMPTY)
-    				b = true;
-    			break;	
+    			
     	}
     	return b;
     }
     
-    protected void makeMove(int type){
+    protected void makeMove(int type,int stepX,int stepY){
     	switch(type){
     		
-    	// move from left to right, when on border, go one line down, start from x=0
-    	case 1:
-    		if ((x++)>this.askForMapWidth()-1){
-    			x = 0;
-    			if ((y+1)>this.askForMapHeight()-1) y = 0;
-    			
-    			else y++;
-    	}
-    		else x++;
+    	// Swiping on x with going stepY up or down each time we end on a border
+    	case 0:
+    		if (x+stepX>(width-1)||x+stepX<0) y = (height+y+stepY)%(height);
+    		x = (width+x+stepX)%(width);
+    		
     		break;
+    		
+    	case 1:
+    		
+    		// Swiping on y
+    		if (y+stepY>(height-1)||y+stepY<0) x = (width+x+stepX)%(width);
+    		y = (height+y+stepY)%(height);
+    		
+    		break;
+    		
+    		case 2:
+    			// going from right to left
+    			if ((x-1)<0){
+        			x = height-1;
+        			if ((y+1)>this.height-1) y = 0;
+        			
+        			else y++;
+        	}
+        		else x++;
+        		break;
+    			
+    		
+    		
     }
     }
     
     protected boolean isOnMap(int x,int y){
     	boolean b = false;
-    	if (x>=0 && x<this.askForMapWidth() && y >= 0 && y < this.askForMapHeight()) b = true;
+    	if (x>=0 && x<this.width && y >= 0 && y < this.height) b = true;
     	return b;
     }
     
     protected void doAction(int action, int actionParameter){
     	switch(action){
-    	// case 1 if solid is found, bomb is triggered
+    	// removes solid on position
+    	case 0:
+    		if (isOnMap(x,y)) this.sendMapRequest(x, y, Terrain.EMPTY);
+    		break;
+        // creates solid on position
     	case 1:
+    		if (isOnMap(x,y)) this.sendMapRequest(x, y, Terrain.SOLID);
+    		break;
+    		
+    		
+    	case 2:
+    		// remove solid from position
+    		for (int x = 0; x < actionParameter; x++){
+    			for (int y = 0; y < actionParameter; y++){
+    				int newX = this.x + x;
+    				int newY = this.y + y;
+    				if (isOnMap(newX,newY)) this.sendMapRequest(newX, newY, Terrain.EMPTY);
+    			}
+    		}
+    		
+    		break;
+    	 
+    	case 3:
+    		// Creates solid square from center
     		for (int x = 0; x < actionParameter; x++){
     			for (int y = 0; y < actionParameter; y++){
     				int newX = this.x + x;
