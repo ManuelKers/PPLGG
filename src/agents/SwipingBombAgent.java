@@ -38,12 +38,12 @@ public class SwipingBombAgent extends AbstractAgent {
 			doAction(action,radius);
 			makeMove(moveStyleAction,moveX,moveY);
 			this.decreaseTokens(1);
-			System.out.println("x pos "+ this.x);
+			//System.out.println("x pos "+ this.x);
 			
 			// swipeFromLeftToRight
 		}
 		else makeMove(this.moveStyleNoAction,moveX,moveY);
-		System.out.println("y pos "+ this.y);
+		//System.out.println("y pos "+ this.y);
 
 	}
 }

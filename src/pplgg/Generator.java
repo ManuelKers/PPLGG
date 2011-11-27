@@ -24,15 +24,19 @@ public class Generator {
     
     public static int[] testSubjects = {1,7};
     
+    public static void setMarioDimensions() {
+        width = 320;
+        height = 15;
+    }
 
     public static Generator randomGenerator() {
-        int noAgents = (int) (1+10 * Math.random());
+        int noAgents = (int) (10+10 * Math.random());
         ArrayList<AgentParams> agentComposition = new ArrayList<AgentParams>(noAgents);
         for (int i=0; i<noAgents; i++) {
             AgentParams parameters = new AgentParams();
             //TODO: collect possible agents from agent package
-           //switch ((int) (Math.random()*7)) {
-            switch(7){
+            switch ((int) (Math.random()*7)) {
+            //switch(7){
             //switch (testSubjects[(int)Math.random()*testSubjects.length]){
                 case 0:
                     parameters.agentClass = RandomCrawlAgent.class;
@@ -128,5 +132,4 @@ public class Generator {
         }
         return mapManager.extractMap();
     }
-
 }

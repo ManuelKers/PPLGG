@@ -31,7 +31,7 @@ public class PPLGG {
         //findRatioFilled( .5 );
         runPPLGG();
     }
-    
+
     public static void findRatioFilled(double ratio) {
         
         int genSamples = 100;
@@ -71,7 +71,7 @@ public class PPLGG {
         int mapsCreated = 0;
         while (true) {
             //generate and show a map
-            Map map = gen.generateMap(50);
+            Map map = gen.generateMap(00);
             if (timeToWait > 0) {
                 System.out.println(map.toString());
             }
@@ -110,7 +110,7 @@ public class PPLGG {
         levelGen = new Generator(agentComposition);
         */
         
-        loopGenerator(levelGen, 001);
+        loopGenerator(levelGen, 000);
     }
 
 }
