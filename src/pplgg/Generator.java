@@ -17,9 +17,14 @@ public class Generator {
 
     public static int width;
     public static int height;
+    
+    public static void setMarioDimensions() {
+        width = 320;
+        height = 15;
+    }
 
     public static Generator randomGenerator() {
-        int noAgents = (int) (1+10 * Math.random());
+        int noAgents = (int) (10+10 * Math.random());
         ArrayList<AgentParams> agentComposition = new ArrayList<AgentParams>(noAgents);
         for (int i=0; i<noAgents; i++) {
             AgentParams parameters = new AgentParams();
@@ -106,5 +111,4 @@ public class Generator {
         }
         return mapManager.extractMap();
     }
-
 }

@@ -31,7 +31,7 @@ public class PPLGG {
         //findRatioFilled( .5 );
         runPPLGG();
     }
-    
+
     public static void findRatioFilled(double ratio) {
         
         int genSamples = 100;
