@@ -44,9 +44,8 @@ public class GapAgent extends AbstractAgent {
 			}
 		}
 		
-		//always move agent, if on the border return to top
-		if (this.y==this.askForMapHeight()-1) this.moveTo((int)(Math.random()*this.askForMapWidth()), 0);
-		else this.moveTo(x, y+1);
+		//always move agent, if outside map - delete;
+		if (!this.isOnMap(x, y)) setTokens(0);
 		
 		 
 	}

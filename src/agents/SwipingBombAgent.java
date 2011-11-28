@@ -14,10 +14,11 @@ public class SwipingBombAgent extends AbstractAgent {
 	int radius;
 	int moveStyleAction = 1;// how will it move after an action is performed
 	int moveStyleNoAction = 1; // how will it move after no action is performed
-	int action = 3; // what action is performed, 
-	int actionTrigger = 0; // what will trigger the action
+	Actions action = Actions.BOMB; // what action is performed, 
+	ActionTriggers actionTrigger = ActionTriggers.SOLID; // what will trigger the action
 	int moveX = -1;
 	int moveY = 1;
+	//int swipesLeft = 10;
 
 
 	public SwipingBombAgent(MapManager newManager, int tokens, Position spawnPos,
@@ -37,13 +38,13 @@ public class SwipingBombAgent extends AbstractAgent {
 		if (actionIsRequired(actionTrigger)){
 			doAction(action,radius);
 			makeMove(moveStyleAction,moveX,moveY);
-			this.decreaseTokens(1);
-			//System.out.println("x pos "+ this.x);
+			
+			
 			
 			// swipeFromLeftToRight
 		}
 		else makeMove(this.moveStyleNoAction,moveX,moveY);
-		//System.out.println("y pos "+ this.y);
+		
 
 	}
 }

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.PriorityQueue;
 
 import agents.AbstractAgent;
+import agents.CirlceAgent;
 import agents.CrossExtenderAgent;
 import agents.GapAgent;
 import agents.GroundRaiseAgent;
@@ -12,6 +13,7 @@ import agents.PlayablePathAgent;
 import agents.RandomAgent;
 import agents.RandomCrawlAgent;
 import agents.RoomAgent;
+import agents.StairAgent;
 import agents.SwipingBombAgent;
 
 
@@ -30,7 +32,7 @@ public class Generator {
     public static int[] testSubjects = {1,7};
 
     private ArrayList<AgentParams> agentComposition;
-    
+
     public static Generator randomGenerator() {
         int noAgents = (int) (4+10 * Math.random());
         ArrayList<AgentParams> agentComposition = new ArrayList<AgentParams>(noAgents);
@@ -41,13 +43,13 @@ public class Generator {
         return new Generator(agentComposition);
     }
 
-    
+
     public static AgentParams randomAgentParams() {
         AgentParams parameters = new AgentParams();
         //TODO: collect possible agents from agent package
-        switch ((int) (Math.random()*6)) {
-        //switch(7){
-        //switch (testSubjects[(int)Math.random()*testSubjects.length]){
+        switch ((int) (Math.random()*10)) {
+            // switch(9){
+            //switch (testSubjects[(int)Math.random()*testSubjects.length]){
             case 0:
                 parameters.agentClass = RandomCrawlAgent.class;
                 break;
@@ -72,7 +74,12 @@ public class Generator {
             case 7:
                 parameters.agentClass = SwipingBombAgent.class;
                 break;
-                
+            case 8:
+                parameters.agentClass = CirlceAgent.class;
+                break;
+            case 9:
+                parameters.agentClass = StairAgent.class;
+                break;
             default:
                 parameters.agentClass = null;
                 break;
@@ -98,7 +105,7 @@ public class Generator {
         ArrayList<AgentParams> removeList = new ArrayList<AgentParams>();
         int steps = 0;
         while (mapManager.agentsLeft() || spawnEvents.size()>0) {
-          //spawn the agents according to their spawn time
+            //spawn the agents according to their spawn time
             for (AgentParams agentPar : spawnEvents) {
                 if (agentPar.spawnTime == steps) {
                     //pick a position inside the spawn circle
@@ -131,20 +138,20 @@ public class Generator {
                     e.printStackTrace();
                 }
             }
-            
+
             steps++;
             if (steps>500)
                 break;
         }
         return mapManager.extractMap();
     }
-    
+
     //removes and returns a random agent, used for mutation
     public AgentParams extractRandomAgent() {
         int index = (int)(Math.random()*agentComposition.size());
         return agentComposition.remove( index );
     }
-    
+
     //adds an agent, used for mutation
     public void addAgent(AgentParams newAgent) {
         agentComposition.add(newAgent);

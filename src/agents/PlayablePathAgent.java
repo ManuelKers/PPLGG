@@ -38,6 +38,7 @@ public class PlayablePathAgent extends AbstractAgent {
 		maxPlatformSize = 5;
 		isEnded = false;
 		
+		
 	}
 
 	@Override
@@ -82,6 +83,8 @@ public class PlayablePathAgent extends AbstractAgent {
 		// setting the new position
 		this.moveTo(newX, newY);
 		}
+		
+		if (!this.isOnMap(x, y)) setTokens(0);
 		
 	}
 
