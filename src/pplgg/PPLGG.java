@@ -1,18 +1,8 @@
 package pplgg;
 
-import java.awt.im.InputContext;
+import ga.GeneticAlgorithm;
 import java.io.IOException;
-import java.io.ObjectInputStream.GetField;
-import java.util.ArrayList;
-
-import pplgg.ga.Fitness;
-import pplgg.ga.FitnessFill;
-
-import agents.CrossExtenderAgent;
-import agents.PlayablePathAgent;
-import agents.RandomAgent;
-import agents.RandomCrawlAgent;
-import agents.RoomAgent;
+import pplgg.ga.GeneratorIndividual;
 
 public class PPLGG {
 
@@ -28,42 +18,24 @@ public class PPLGG {
         Generator.width = width;
         Generator.height = height;
         
-        //findRatioFilled( .5 );
-        runPPLGG();
-    }
-
-    public static void findRatioFilled(double ratio) {
-        
-        int genSamples = 100;
-        int mapSamples = 50;
-        
-        double bestFitness = -1;
-        Generator bestGenerator = null;
-        
-        Fitness fitnessFunction = new FitnessFill(ratio);
-        for (int g=0; g<genSamples; g++) {
-            System.out.print("Evaluating generator #"+g+". Fitness: ");
-            Generator sampleGenerator = Generator.randomGenerator();
-            double fillFitness = 0;
-            for (int k=0; k<mapSamples; k++) {
-                Map sampleMap = sampleGenerator.generateMap(0);
-                double fitness = fitnessFunction.evaluate( sampleMap ) ;
-                fillFitness += fitness;
-            }
-            fillFitness /= mapSamples;
-            System.out.println(fillFitness);
-            if (fillFitness > bestFitness) {
-                bestFitness = fillFitness;
-                bestGenerator = sampleGenerator;
-            }
-        }
-        System.out.println("Best generator has a fitness of: "+bestFitness);
-        System.out.println("Press enter to show an endless amount of fit levels!");
+        Generator resultGenerator = runGA();
+        System.out.println("Press enter in console to show an endless amount of its levels!");
         try {
             System.in.read();
         }
         catch (IOException e) {}
-        loopGenerator(bestGenerator, 1000);
+        loopGenerator(resultGenerator, 1000);
+        
+        //runPPLGG();
+    }
+
+    public static Generator runGA() {
+        
+        GeneticAlgorithm geneticAlgorithm = new GeneticAlgorithm();
+        GeneratorIndividual fittestInd = (GeneratorIndividual) geneticAlgorithm.getFittestIndividual();
+        
+        System.out.println("Best generator has a fitness of: "+fittestInd.getFitness());
+        return fittestInd.getGenerator();
     }
     
     //timeToWait = 0 means you don't get to see the output
@@ -111,6 +83,13 @@ public class PPLGG {
         */
         
         loopGenerator(levelGen, 000);
+    }
+
+    public static Generator retrieveMarioGenerator(int w, int h) {
+        Generator.width = 200;
+        Generator.height = 25;
+        
+        return runGA();
     }
 
 }

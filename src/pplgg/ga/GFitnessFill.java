@@ -1,18 +1,20 @@
 package pplgg.ga;
 
+import ga.Fitness;
+import ga.Individual;
 import pplgg.Map;
 import pplgg.PPLGG.Terrain;
 
-public class FitnessFill extends Fitness {
+public class GFitnessFill extends GeneratorFitness {
 
     private double searchedRatio;
     
-    public FitnessFill(double ratio) {
+    public GFitnessFill(double ratio) {
         this.searchedRatio = ratio;
     }
     
     @Override
-    public double evaluate( Map map ) {
+    public double evaluateMap ( Map map ) {
         int w = map.getWidth();
         int h = map.getHeight();
         int noSolid = 0;
@@ -22,4 +24,5 @@ public class FitnessFill extends Fitness {
         double solidRatio = (double)noSolid / (double)(w*h);
         return (1-(Math.abs(searchedRatio-solidRatio)));
     }
+
 }

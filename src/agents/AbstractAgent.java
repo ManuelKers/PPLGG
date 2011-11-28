@@ -167,9 +167,8 @@ public abstract class AbstractAgent {
     				if (isOnMap(newX,newY)) this.sendMapRequest(newX, newY, Terrain.SOLID);
     			}
     		}
-    		
     		break;
-    }
+    	}
     }
     
 }

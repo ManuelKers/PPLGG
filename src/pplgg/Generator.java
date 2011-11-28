@@ -19,67 +19,71 @@ import agents.SwipingBombAgent;
 
 public class Generator {
 
+    public static final float maximumSpawnRadius = 10;
+    public static final int maximumSpawnTime = 200;
+    public static final int minimumTokens = 10;
+    public static final int maximumTokens = 80;
+    public static final int maximumWaitingTime = 5;
     public static int width;
     public static int height;
-    
-    public static int[] testSubjects = {1,7};
-    
-    public static void setMarioDimensions() {
-        width = 320;
-        height = 15;
-    }
 
+    public static int[] testSubjects = {1,7};
+
+    private ArrayList<AgentParams> agentComposition;
+    
     public static Generator randomGenerator() {
-        int noAgents = (int) (10+10 * Math.random());
+        int noAgents = (int) (4+10 * Math.random());
         ArrayList<AgentParams> agentComposition = new ArrayList<AgentParams>(noAgents);
         for (int i=0; i<noAgents; i++) {
-            AgentParams parameters = new AgentParams();
-            //TODO: collect possible agents from agent package
-            switch ((int) (Math.random()*7)) {
-            //switch(7){
-            //switch (testSubjects[(int)Math.random()*testSubjects.length]){
-                case 0:
-                    parameters.agentClass = RandomCrawlAgent.class;
-                    break;
-                case 1:
-                    parameters.agentClass = GroundRaiseAgent.class;
-                    break;
-                case 2:
-                    parameters.agentClass = PlayablePathAgent.class;
-                    break;
-                case 3:
-                    parameters.agentClass = GapAgent.class;
-                    break;
-                case 4:
-                	parameters.agentClass = CrossExtenderAgent.class;
-                	break;
-                case 5:
-                	parameters.agentClass = RoomAgent.class;
-                	break;
-                case 6:
-                	parameters.agentClass = RandomAgent.class;
-                	break;
-                case 7:
-                	parameters.agentClass = SwipingBombAgent.class;
-                	break;
-                	
-                default:
-                    parameters.agentClass = null;
-                    break;
-            }
-            parameters.pos = new Position((int) (width*Math.random()), (int) (height*Math.random()));
-            parameters.spawnRadius = 10;
-            parameters.tokens = (int) (10+70*Math.random());
-            parameters.spawnTime = (int) (1+200*Math.random());
-            parameters.waitingPeriod = (int) (1+4*Math.random());
-            
-            agentComposition.add( i, parameters);
+            agentComposition.add( i, Generator.randomAgentParams());
         }
 
         return new Generator(agentComposition);
     }
 
-    private ArrayList<AgentParams> agentComposition;
+    
+    public static AgentParams randomAgentParams() {
+        AgentParams parameters = new AgentParams();
+        //TODO: collect possible agents from agent package
+        switch ((int) (Math.random()*6)) {
+        //switch(7){
+        //switch (testSubjects[(int)Math.random()*testSubjects.length]){
+            case 0:
+                parameters.agentClass = RandomCrawlAgent.class;
+                break;
+            case 1:
+                parameters.agentClass = GroundRaiseAgent.class;
+                break;
+            case 2:
+                parameters.agentClass = PlayablePathAgent.class;
+                break;
+            case 3:
+                parameters.agentClass = GapAgent.class;
+                break;
+            case 4:
+                parameters.agentClass = CrossExtenderAgent.class;
+                break;
+            case 5:
+                parameters.agentClass = RoomAgent.class;
+                break;
+            case 6:
+                parameters.agentClass = RandomAgent.class;
+                break;
+            case 7:
+                parameters.agentClass = SwipingBombAgent.class;
+                break;
+                
+            default:
+                parameters.agentClass = null;
+                break;
+        }
+        parameters.pos = new Position((int) (width*Math.random()), (int) (height*Math.random()));
+        parameters.spawnRadius = maximumSpawnRadius * Math.random();
+        parameters.tokens = (int) (minimumTokens+(maximumTokens-minimumTokens)*Math.random());
+        parameters.spawnTime = (int) (1+maximumSpawnTime*Math.random());
+        parameters.waitingPeriod = (int) (1+(maximumWaitingTime-1)*Math.random());
+        return parameters;
+    }
 
     public Generator(ArrayList<AgentParams> agentComposition) {
         this.agentComposition = agentComposition;
@@ -129,7 +133,32 @@ public class Generator {
             }
             
             steps++;
+            if (steps>500)
+                break;
         }
         return mapManager.extractMap();
+    }
+    
+    //removes and returns a random agent, used for mutation
+    public AgentParams extractRandomAgent() {
+        int index = (int)(Math.random()*agentComposition.size());
+        return agentComposition.remove( index );
+    }
+    
+    //adds an agent, used for mutation
+    public void addAgent(AgentParams newAgent) {
+        agentComposition.add(newAgent);
+    }
+
+    //returns a copy, used for genetic algorithm
+    public Generator copy() {
+        ArrayList<AgentParams> parametersCopy = new ArrayList<AgentParams>(agentComposition.size());
+        for (int i=0; i<agentComposition.size(); i++)
+            parametersCopy.add((AgentParams) agentComposition.get(i).clone());
+        return new Generator(parametersCopy);
+    }
+
+    public int getNoAgents() {
+        return agentComposition.size();
     }
 }
