@@ -12,11 +12,11 @@ public class SwipingBombAgent extends AbstractAgent {
 	int minRadius = 1;
 	int maxRadius = 5;
 	int radius;
-	int moveStyleAction = 1;// how will it move after an action is performed
-	int moveStyleNoAction = 1; // how will it move after no action is performed
+	int moveStyleAction = 0;// how will it move after an action is performed
+	int moveStyleNoAction = 0; // how will it move after no action is performed
 	Actions action = Actions.BOMB; // what action is performed, 
 	ActionTriggers actionTrigger = ActionTriggers.SOLID; // what will trigger the action
-	int moveX = -1;
+	int moveX = 1;
 	int moveY = 1;
 	//int swipesLeft = 10;
 
@@ -37,8 +37,9 @@ public class SwipingBombAgent extends AbstractAgent {
 		// if so do action, and move
 		if (actionIsRequired(actionTrigger)){
 			doAction(action,radius);
-			makeMove(moveStyleAction,moveX,moveY);
-			
+			//makeMove(moveStyleAction,moveX,moveY);
+			y += (height+randomBetween(-5, +5));
+			y = y % height;
 			
 			
 			// swipeFromLeftToRight

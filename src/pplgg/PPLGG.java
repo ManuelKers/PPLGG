@@ -82,11 +82,11 @@ public class PPLGG {
         levelGen = new Generator(agentComposition);
         */
         
-        loopGenerator(levelGen, 000);
+        loopGenerator(levelGen, 1000);
     }
 
     public static Generator retrieveMarioGenerator(int w, int h) {
-        Generator.width = 30;
+        Generator.width = 150;
         Generator.height = 15;
         
         return runGA();

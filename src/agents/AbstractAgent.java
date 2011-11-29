@@ -128,6 +128,8 @@ public abstract class AbstractAgent {
 			}
 			else x++;
 			break;
+			
+		
 
 
 
