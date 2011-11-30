@@ -18,15 +18,15 @@ public class PPLGG {
         Generator.width = width;
         Generator.height = height;
         
-        Generator resultGenerator = runGA();
+       /* Generator resultGenerator = runGA();
         System.out.println("Press enter in console to show an endless amount of its levels!");
         try {
             System.in.read();
         }
         catch (IOException e) {}
-        loopGenerator(resultGenerator, 1000);
+        loopGenerator(resultGenerator, 1000);*/
         
-        //runPPLGG();
+        runPPLGG();
     }
 
     public static Generator runGA() {

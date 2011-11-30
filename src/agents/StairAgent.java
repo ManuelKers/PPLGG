@@ -15,7 +15,6 @@ public class StairAgent extends AbstractAgent {
 	
 	private static enum States{
 		FALLING,
-		
 		BUILDING
 	}
 	States state;
