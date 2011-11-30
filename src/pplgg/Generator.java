@@ -47,42 +47,43 @@ public class Generator {
     public static AgentParams randomAgentParams() {
         AgentParams parameters = new AgentParams();
         //TODO: collect possible agents from agent package
-        switch ((int) (Math.random()*10)) {
+        switch ((int) (Math.random()*8)) {
             // switch(9){
             //switch (testSubjects[(int)Math.random()*testSubjects.length]){
             case 0:
                 parameters.agentClass = RandomCrawlAgent.class;
                 break;
             case 1:
-                parameters.agentClass = GroundRaiseAgent.class;
-                break;
-            case 2:
                 parameters.agentClass = PlayablePathAgent.class;
                 break;
-            case 3:
+            case 2:
                 parameters.agentClass = GapAgent.class;
                 break;
-            case 4:
-                parameters.agentClass = CrossExtenderAgent.class;
-                break;
-            case 5:
+            case 3:
                 parameters.agentClass = RoomAgent.class;
                 break;
-            case 6:
+            case 4:
                 parameters.agentClass = RandomAgent.class;
                 break;
-            case 7:
+            case 5:
                 parameters.agentClass = SwipingBombAgent.class;
                 break;
-            case 8:
+            case 6:
                 parameters.agentClass = CirlceAgent.class;
                 break;
-            case 9:
+            case 7:
                 parameters.agentClass = StairAgent.class;
+                break;
+            case 8:
+                parameters.agentClass = GroundRaiseAgent.class;
+                break;
+            case 9:
+                parameters.agentClass = CrossExtenderAgent.class;
                 break;
             default:
                 parameters.agentClass = null;
                 break;
+             
         }
         parameters.pos = new Position((int) (width*Math.random()), (int) (height*Math.random()));
         parameters.spawnRadius = maximumSpawnRadius * Math.random();

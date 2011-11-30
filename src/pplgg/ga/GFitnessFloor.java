@@ -15,7 +15,7 @@ public class GFitnessFloor extends GeneratorFitness {
         int noTopSolid = 0;
         for (int x=0; x<w; x++) 
             for (int y=0; y<h; y++)
-                if (y>2*h/3)
+                if (y>1*h/3)
                     noBottomSolid += (map.getTerrain( x, y ) == Terrain.SOLID) ? 1 : 0;
                 else
                     noTopSolid += (map.getTerrain( x, y ) == Terrain.SOLID) ? 1 : 0;

@@ -86,7 +86,7 @@ public class PPLGG {
     }
 
     public static Generator retrieveMarioGenerator(int w, int h) {
-        Generator.width = 30;
+        Generator.width = 300;
         Generator.height = 15;
         
         return runGA();
