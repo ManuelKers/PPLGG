@@ -6,6 +6,8 @@ import java.util.PriorityQueue;
 
 import agents.AbstractAgent;
 import agents.BouncerAgent;
+import agents.BouncerRemover;
+import agents.CellAgent;
 import agents.CirlceAgent;
 import agents.CrossExtenderAgent;
 import agents.GapAgent;
@@ -30,7 +32,7 @@ public class Generator {
     public static int width;
     public static int height;
 
-    public static int[] testSubjects = {1,7};
+    public static int[] testSubjects = {5,12};
 
     private ArrayList<AgentParams> agentComposition;
 
@@ -48,9 +50,9 @@ public class Generator {
     public static AgentParams randomAgentParams() {
         AgentParams parameters = new AgentParams();
         //TODO: collect possible agents from agent package
-       // switch ((int) (Math.random()*10)) {
-            switch(10){
-            //switch (testSubjects[(int)Math.random()*testSubjects.length]){
+       switch ((int) (Math.random()*12)) {
+           // switch(12){
+           // switch (testSubjects[(int)Math.random()*testSubjects.length]){
             case 0:
                 parameters.agentClass = RandomCrawlAgent.class;
                 break;
@@ -84,6 +86,12 @@ public class Generator {
             case 10:
             	parameters.agentClass = BouncerAgent.class;
                 break;
+            case 11:
+            	parameters.agentClass = BouncerRemover.class;
+                break;
+            /*case 12:
+            	parameters.agentClass = CellAgent.class;
+                break;*/
             default:
                 parameters.agentClass = null;
                 break;

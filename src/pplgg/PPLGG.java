@@ -26,7 +26,7 @@ public class PPLGG {
         catch (IOException e) {}
         loopGenerator(resultGenerator, 1000);*/
         
-        runPPLGG();
+        //runPPLGG();
     }
 
     public static Generator runGA() {
@@ -43,7 +43,7 @@ public class PPLGG {
         int mapsCreated = 0;
         while (true) {
             //generate and show a map
-            Map map = gen.generateMap(00);
+            Map map = gen.generateMap(0);
             if (timeToWait > 0) {
                 System.out.println(map.toString());
             }

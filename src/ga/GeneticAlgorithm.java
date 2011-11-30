@@ -13,7 +13,7 @@ public class GeneticAlgorithm {
 	}
 	
 	public GeneticAlgorithm() {
-		population = new Population(80);
+		population = new Population(10);
 		fitnessFunction = new GFitnessFloor();
 		population.initialize();
 		runGA();
@@ -22,7 +22,7 @@ public class GeneticAlgorithm {
 
     private void runGA() {
         int generation = 1;
-        while (generation<=5) {
+        while (generation<=8) {
             System.out.println(generation);
             population.evaluate(fitnessFunction);
             Individual populationFittest = population.getFittestIndividual();
