@@ -1,36 +1,37 @@
 package agents;
 
 import pplgg.MapManager;
-import pplgg.PPLGG.Terrain;
 import pplgg.Position;
+import pplgg.PPLGG.Terrain;
 
-public class BouncerAgent extends AbstractAgent {
 
-    
+// Agent Class that removes ground, using same movement method as bouncer agent
+
+public class BouncerRemover extends AbstractAgent {
+
+	
 	
 	private float speedX;
 	private float speedY;
 	private float floatX;
 	private float floatY;
-
-	public BouncerAgent(MapManager newManager, int tokens, Position spawnPos,
+	
+	public BouncerRemover(MapManager newManager, int tokens, Position spawnPos,
 			int waitingPeriod) {
 		super(newManager, tokens, spawnPos, waitingPeriod);
-
 		//speeds can vari between -1 and 1;
-		speedX = (float)Math.random()*2-1;
-		speedY = (float)Math.random()*2-1;
-		floatX = x;
-		floatY = y;
-
+				speedX = (float)Math.random()*2-1;
+				speedY = (float)Math.random()*2-1;
+				floatX = x;
+				floatY = y;
 	}
 
 	@Override
 	public void performStep() {
-
+		
 		//create ground on position decrease token
 		if (isOnMap(x, y)){
-			sendMapRequest(x, y, Terrain.SOLID);
+			sendMapRequest(x, y, Terrain.EMPTY);
 			decreaseTokens(1);
 		}
 
@@ -50,6 +51,9 @@ public class BouncerAgent extends AbstractAgent {
 		moveTo((int)floatX, (int)floatY);
 
 		// TODO Auto-generated method stub
+
+		
+	 
 
 	}
 
