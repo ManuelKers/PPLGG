@@ -33,7 +33,7 @@ public class CellAgent extends AbstractAgent {
 				int neighboursAlive = 0;
 
 				// check neighbours (rewrap on map)
-				for (int checkX = -1 ; checkX )
+				//for (int checkX = -1 ; checkX )
 				for (int i=1;i<=2;i++){
 					// first check to the right
 					if (isAlive((width + tmpX+i)%width,tmpY+1)) neighboursAlive++;
