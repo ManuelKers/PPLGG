@@ -1,7 +1,6 @@
 package pplgg;
 
 import ga.GeneticAlgorithm;
-import java.io.IOException;
 import pplgg.ga.GeneratorIndividual;
 
 public class PPLGG {

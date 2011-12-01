@@ -2,9 +2,6 @@ package pplgg;
 
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
-import java.util.PriorityQueue;
-
-import agents.AbstractAgent;
 import agents.BouncerAgent;
 import agents.BouncerRemover;
 import agents.GameOfLifeAgent;

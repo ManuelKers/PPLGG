@@ -10,7 +10,8 @@ public class AgentParams implements Cloneable {
     public Position pos; //start position of agent
     public double spawnRadius; //radius around pos where agent is allowed to start
     
-    public Object clone() {
+    @Override
+	public Object clone() {
         try {
             return super.clone();
         }

@@ -28,7 +28,8 @@ public class Map {
         mapxy[x][y] = newTerrain;
     }
     
-    public String toString() {
+    @Override
+	public String toString() {
         String s = "";
         for (int y=0; y<height; y++) {
             for (int x=0; x<width; x++) {

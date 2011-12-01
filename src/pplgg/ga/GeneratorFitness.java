@@ -11,7 +11,8 @@ public abstract class GeneratorFitness extends Fitness {
 
     public abstract double evaluateMap(Map map);
 
-    public double evaluate(Individual ind) {
+    @Override
+	public double evaluate(Individual ind) {
         GeneratorIndividual genInd = (GeneratorIndividual) ind;
         Generator gen = genInd.getGenerator();
 

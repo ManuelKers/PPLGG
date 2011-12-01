@@ -1,6 +1,5 @@
 package ga;
 
-import pplgg.ga.GFitnessFill;
 import pplgg.ga.GFitnessFloor;
 
 public class GeneticAlgorithm {

@@ -1,7 +1,5 @@
 package pplgg.ga;
 
-import ga.Fitness;
-import ga.Individual;
 import pplgg.Map;
 import pplgg.PPLGG.Terrain;
 
