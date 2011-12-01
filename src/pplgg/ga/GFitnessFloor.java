@@ -2,6 +2,8 @@ package pplgg.ga;
 
 import pplgg.Map;
 import pplgg.PPLGG.Terrain;
+import ga.Fitness;
+import ga.Individual;
 
 public class GFitnessFloor extends GeneratorFitness {
 

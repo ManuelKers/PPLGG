@@ -2,6 +2,7 @@ package pplgg.ga;
 
 import pplgg.AgentParams;
 import pplgg.Generator;
+import pplgg.Map;
 import pplgg.Position;
 import ga.Individual;
 
