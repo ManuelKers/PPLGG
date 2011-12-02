@@ -50,9 +50,9 @@ public class Generator {
     public static AgentParams randomAgentParams() {
         AgentParams parameters = new AgentParams();
         //TODO: collect possible agents from agent package
-      //switch ((int) (Math.random()*12)) {
+        switch ((int) (Math.random()*12)) {
            //switch(12){
-           switch (testSubjects[(int)Math.random()*testSubjects.length]){
+           //switch (testSubjects[(int)Math.random()*testSubjects.length]){
             case 0:
                 parameters.agentClass = RandomCrawlAgent.class;
                 break;

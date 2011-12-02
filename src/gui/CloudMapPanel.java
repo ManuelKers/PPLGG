@@ -17,18 +17,27 @@ import pplgg.PPLGG.Terrain;
 // Extend our ball class from Canvas
 public class CloudMapPanel extends Canvas implements MouseListener {
 
-    boolean selected;
+    private enum State {
+        IDLE,
+        MOUSEOVER,
+        INSPECTED,
+        SELECTED;
+    }
+
+    State state;
     Generator myGen;
     ArrayList<Map> sampleMaps;
     double[][] grayScale;
     private int mapHeight;
     private int mapWidth;
+    private PPLGGGUI gui;
     private static final int blockWidth = 4;
     private static final int blockHeight = 4;
 
-    public CloudMapPanel() {
+    public CloudMapPanel(PPLGGGUI gui) {
+        this.gui = gui;
         sampleMaps = new ArrayList<Map>();
-        selected = false;
+        state = State.IDLE;
         this.setSize( blockWidth*Generator.width, blockHeight*Generator.height );
         mapWidth = Generator.width;
         mapHeight = Generator.height;
@@ -56,7 +65,7 @@ public class CloudMapPanel extends Canvas implements MouseListener {
                 gs *= (double)(noMaps-noToAdd)/(double)noMaps;
                 grayScale[x][y] = 1-gs;
             }
-        
+
         for (int m=sampleMaps.size()-noToAdd; m<sampleMaps.size(); m++) {
             Map map = sampleMaps.get(m); 
             for (int x=0; x<mapWidth; x++) {
@@ -92,13 +101,18 @@ public class CloudMapPanel extends Canvas implements MouseListener {
         int panelWidth = getWidth();
         int panelHeight = getHeight();
         g.setColor( Color.black );
-        if (!selected)
-            g.drawRect( 0, 0, panelWidth-1, getHeight()-1 );
-        else {
-            g.drawRect( 0, 0, panelWidth-1, panelHeight-1 );
-            g.drawRect( 1, 1, panelWidth-3, panelHeight-3 );
-            g.drawRect( 2, 2, panelWidth-5, panelHeight-5 );
+        switch (state) {
+            case SELECTED:
+            case INSPECTED:
+                g.setColor( Color.blue );
+            case MOUSEOVER:
+                g.drawRect( 1, 1, panelWidth-3, panelHeight-3 );
+                g.drawRect( 2, 2, panelWidth-5, panelHeight-5 );
+            case IDLE:
+                g.drawRect( 0, 0, panelWidth-1, getHeight()-1 );
+                break;
         }
+        g.setColor( Color.black );
         Graphics2D graphics2d = (Graphics2D)graphics;
         graphics2d.drawImage(buffer,null,0,0);
     }
@@ -114,20 +128,29 @@ public class CloudMapPanel extends Canvas implements MouseListener {
     }
     @Override
     public void mouseEntered( MouseEvent arg0 ) {
-        selected = true;
-        repaint();
+        if (!(state==State.SELECTED || state==State.INSPECTED)) {
+            state = State.MOUSEOVER;
+            repaint();
+        }
 
     }
     @Override
     public void mouseExited( MouseEvent arg0 ) {
-        selected = false;
-        repaint();
-
+        if (!(state==State.SELECTED || state==State.INSPECTED)) {
+            state = State.IDLE;
+            repaint();
+        }
     }
     @Override
     public void mousePressed( MouseEvent arg0 ) {
-        // TODO Auto-generated method stub
-
+        if (state != State.INSPECTED) {
+            gui.inspect(this);
+            state = State.INSPECTED;
+        }
+        else {
+            gui.viewOverView();
+            state = State.MOUSEOVER;
+        }
     }
     @Override
     public void mouseReleased( MouseEvent arg0 ) {
@@ -137,6 +160,9 @@ public class CloudMapPanel extends Canvas implements MouseListener {
     public int getNoMaps() {
         // TODO Auto-generated method stub
         return sampleMaps.size();
+    }
+    public Generator getGenerator() {
+        return myGen;
     }
 }
 

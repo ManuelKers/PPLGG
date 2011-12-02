@@ -17,8 +17,8 @@ public class MapPanel extends Canvas implements MouseListener {
 
     boolean selected;
     Map myMap;
-    private static final int blockWidth = 7;
-    private static final int blockHeight = 7;
+    private static final int blockWidth = 4;
+    private static final int blockHeight = 4;
 
     public MapPanel(Map map) {
         this.setSize( blockWidth*map.getWidth(), blockHeight*map.getHeight() );
@@ -29,7 +29,6 @@ public class MapPanel extends Canvas implements MouseListener {
 
 
     public MapPanel() {
-        // TODO Auto-generated constructor stub
     }
 
 

@@ -12,11 +12,18 @@ import java.awt.event.ActionListener;
 
 public class PPLGGGUI extends JFrame implements ActionListener {
 
-    MapPanel mapPanel[];
+    MapPanel mapSamples[];
     CloudMapPanel generators[];
     CloudMapThread mapAdders[];
-    CloudMapPanel cloudMap;
+    CloudMapPanel inspectedGenerator;
+    private JPanel generatorGrid;
+    private JPanel inspectGrid;
     
+    
+    private enum State {
+        OVERVIEW,
+        INSPECT;
+    }
     
     public static void main(String[] args) {
         PPLGGGUI frame = new PPLGGGUI();
@@ -55,23 +62,63 @@ public class PPLGGGUI extends JFrame implements ActionListener {
     private void createGeneratorGrid() {
         Generator.width = 180;
         Generator.height = 15;
-        JPanel generatorGrid = new JPanel();
+        generatorGrid = new JPanel();
         GridLayout layout = new GridLayout(0,2,20,5);
         generatorGrid.setLayout(layout);
         generators = new CloudMapPanel[20];
         for (int i=0; i<generators.length; i++) {
-            generators[i] = new CloudMapPanel();
+            generators[i] = new CloudMapPanel(this);
             generatorGrid.add( generators[i] );
         }
         
         this.getContentPane().add( generatorGrid );
     }
+    
+    public void inspect( CloudMapPanel cloudMapPanel ) {
+        inspectedGenerator = cloudMapPanel;
+        inspectGrid = new JPanel();
+        GridLayout layout = new GridLayout(0,2,20,5);
+        inspectGrid.setLayout(layout);
+        
+        
+        //find index of inspected generator
+        int index;
+        for (index=0; index<generators.length; index++) {
+            if (generators[index]==cloudMapPanel)
+                break;
+        }
+        
+        mapSamples = new MapPanel[20];
+        for (int i=0; i<mapSamples.length; i++) {
+            if (i==index) {
+                inspectGrid.add( cloudMapPanel );
+            } else {
+                mapSamples[i] = new MapPanel( cloudMapPanel.getGenerator().generateMap( 0 ));
+                inspectGrid.add( mapSamples[i] );
+            }
+        }
+        
+        this.getContentPane().remove( generatorGrid );
+        this.getContentPane().add( inspectGrid );
+        validate();
+    }
+    
+    public void viewOverView() {
+        generatorGrid.removeAll();
+        for (int i=0; i<generators.length; i++) {
+            generatorGrid.add( generators[i] );
+        }
+        this.getContentPane().remove( inspectGrid );
+        this.getContentPane().add( generatorGrid );
+        validate();
+    } 
 
     private void createButtons() {
         Container window = this.getContentPane();
         JButton redoButton = new JButton("new Map Samples");
         redoButton.setActionCommand("newmaps");
         redoButton.addActionListener( this );
+        redoButton.setEnabled( false );
         window.add( redoButton );
         
         JButton newGeneratorButton = new JButton("New Generator");
@@ -98,9 +145,7 @@ public class PPLGGGUI extends JFrame implements ActionListener {
                 //generators[i].addMaps( 50 );
             }
         }
-    } 
-    
-    
+    }
     
 }
 
