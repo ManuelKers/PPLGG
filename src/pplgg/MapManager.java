@@ -71,7 +71,7 @@ public class MapManager {
         for (int x=0; x<getMapWidth(); x++) {
             for (int y=0; y<getMapHeight(); y++) {
                 //handle a request
-                //pick the first received request
+                //TODO not pick the first received request
                 if (requests[x][y].size()>0) {
                     managedMap.setTerrain( x, y, requests[x][y].get(0));
                     requests[x][y].clear();
