@@ -8,6 +8,8 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 
+import dk.itu.mario.engine.PlayCustomized;
+
 import pplgg.Map;
 import pplgg.PPLGG.Terrain;
 
@@ -17,19 +19,21 @@ public class MapPanel extends Canvas implements MouseListener {
 
     boolean selected;
     Map myMap;
-    private static final int blockWidth = 7;
-    private static final int blockHeight = 7;
+    private PPLGGGUI gui;
+    private static final int blockWidth = 4;
+    private static final int blockHeight = 4;
 
-    public MapPanel(Map map) {
+    public MapPanel(Map map, PPLGGGUI gui) {
+        this(gui);
         this.setSize( blockWidth*map.getWidth(), blockHeight*map.getHeight() );
         myMap = map;
-        selected = false;
-        this.addMouseListener(this);
     }
 
 
-    public MapPanel() {
-        // TODO Auto-generated constructor stub
+    public MapPanel(PPLGGGUI gui) {
+        this.addMouseListener(this);
+        this.gui = gui;
+        selected = false;
     }
 
 
@@ -87,8 +91,9 @@ public class MapPanel extends Canvas implements MouseListener {
         
     }
     @Override
-    public void mousePressed( MouseEvent arg0 ) {
-        // TODO Auto-generated method stub
+    public void mousePressed( MouseEvent arg0 ) {        
+        
+        gui.playMario(this);
         
     }
     @Override
@@ -102,6 +107,11 @@ public class MapPanel extends Canvas implements MouseListener {
     public void mouseClicked( MouseEvent e ) {
         // TODO Auto-generated method stub
         
+    }
+
+
+    public Map getMap() {
+        return myMap;
     }
 
 }

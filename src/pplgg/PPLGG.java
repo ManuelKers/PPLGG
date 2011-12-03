@@ -26,7 +26,7 @@ public class PPLGG {
         catch (IOException e) {}
         loopGenerator(resultGenerator, 1000);*/
         
-        //runPPLGG();
+        runPPLGG();
     }
 
     public static Generator runGA() {
