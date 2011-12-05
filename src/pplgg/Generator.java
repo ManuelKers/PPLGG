@@ -7,6 +7,7 @@ import java.util.PriorityQueue;
 import agents.AbstractAgent;
 import agents.BouncerAgent;
 import agents.BouncerRemover;
+import agents.GAgent;
 import agents.GameOfLifeAgent;
 import agents.CirlceAgent;
 import agents.CrossExtenderAgent;
@@ -50,8 +51,8 @@ public class Generator {
     public static AgentParams randomAgentParams() {
         AgentParams parameters = new AgentParams();
         //TODO: collect possible agents from agent package
-        switch ((int) (Math.random()*12)) {
-           //switch(12){
+       // switch ((int) (Math.random()*12)) {
+           switch(13){
            //switch (testSubjects[(int)Math.random()*testSubjects.length]){
             case 0:
                 parameters.agentClass = RandomCrawlAgent.class;
@@ -92,6 +93,10 @@ public class Generator {
             case 12:
             	parameters.agentClass = GameOfLifeAgent.class;
                 break;
+            case 13:
+            	parameters.agentClass = GAgent.class;
+            	break;
+             
             default:
                 parameters.agentClass = null;
                 break;
