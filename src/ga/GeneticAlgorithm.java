@@ -9,15 +9,14 @@ public class GeneticAlgorithm {
 	Individual fittestIndividual;
 	
 	public static void main(String[] args) {
-		new GeneticAlgorithm();
+		new GeneticAlgorithm(5);
 	}
 	
-	public GeneticAlgorithm() {
-		population = new Population(5);
+	public GeneticAlgorithm(int populationSize) {
+		population = new Population(populationSize);
 		fitnessFunction = new GFitnessFloor();
-		population.initialize();
+		population.initializeRandomly();
 		runGA();
-		
 	}
 
     private void runGA() {

@@ -8,7 +8,7 @@ import pplgg.ga.GeneratorIndividual;
 
 public class Reproduction {
     public static int tournamentSize = 5;
-    public static float mutationRate = 0.05f;
+    public static float mutationRate = 0.5f;
     public static float crossOverRate = 0.9f;
 
     public static Individual tournamentSelection(ArrayList<Individual> genePool) {
@@ -29,9 +29,6 @@ public class Reproduction {
                 bestInd = competitors.get(i);
             }
         }
-        if (bestInd == null) {
-            int sda=0;
-        }
         return bestInd;
     }
 
@@ -43,9 +40,10 @@ public class Reproduction {
         int size2 = parent2.getGenerator().getNoAgents();
         ArrayList<AgentParams> childAgentComposition = new ArrayList<AgentParams>();
         
-        //pick random amount of agents from both parents (at least 1 from the first parent (so we assume first parent is non-empty))
-        int amountFromParent1 = (int)(1+Math.random()*(size1));
-        int amountFromParent2 = (int)(Math.random()*(size2+1));
+        //determine randomly what part of agents should come from which agent
+        float agentRatio = (float) Math.random();
+        int amountFromParent1 = Math.round( agentRatio   *(size1));
+        int amountFromParent2 = Math.round((1-agentRatio)*(size2));
         for (int i=0; i<amountFromParent1; i++)
             childAgentComposition.add(parent1.getGenerator().extractRandomAgent());
         for (int i=0; i<amountFromParent2; i++)

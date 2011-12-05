@@ -15,10 +15,18 @@ public class Population {
 		this.size = size;
 	}
 	
-	public void initialize() {
+	public void initializeRandomly() {
 		for (int i=0; i<size; i++) {
 			individuals.add(new GeneratorIndividual(Generator.randomGenerator()));
 		}
+	}
+	
+	public ArrayList<Individual> getIndividuals() {
+	    return individuals;
+	}
+	
+	public void setIndividualFitness(int i, double fitness) {
+	    individuals.get(i).setFitness( fitness );
 	}
 	
 	//returns average fitness
@@ -33,21 +41,31 @@ public class Population {
 		return totalFit/size;
 	}
 	
+	//remove fitnesses lower than or equal to 0
 	public void nextGeneration() {
-		ArrayList<Individual> newPop = new ArrayList<Individual>(size);
+	    ArrayList<Individual> genepool = new ArrayList<Individual>();
+	    for (int i=0; i<individuals.size(); i++) {
+	        if (individuals.get( i ).getFitness()>0)
+	            genepool.add(individuals.get(i));
+	    }
+	    nextGeneration(genepool);
+	}
+	
+	public void nextGeneration(ArrayList<Individual> genepool) {
+		ArrayList<Individual> newPop = new ArrayList<Individual>(genepool.size());
 		
-		for (int i=0; i<size; i++) {
-			Individual parent1 = Reproduction.tournamentSelection(individuals).copy();
+		for (int i=0; i<individuals.size(); i++) {
+			Individual parent1 = Reproduction.tournamentSelection(genepool).copy();
 			if (Math.random() >= Reproduction.crossOverRate) //new = copy of old individual
 				newPop.add(parent1.copy()); 
 			else { //new = offspring of two old individuals
-				Individual parent2 = Reproduction.tournamentSelection(individuals).copy();
+				Individual parent2 = Reproduction.tournamentSelection(genepool).copy();
 				newPop.add(Reproduction.mate(parent1,parent2));
 			}
 		}
 		individuals = newPop;
-		for (int i=0; i<size; i++) {
-		    if (Math.random() < (Reproduction.mutationRate/size))
+		for (int i=0; i<individuals.size(); i++) {
+		    if (Math.random() < (Reproduction.mutationRate))
 		        individuals.get(i).mutate();
 		}
 	}

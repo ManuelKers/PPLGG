@@ -93,7 +93,10 @@ public class CloudMapPanel extends Canvas implements MouseListener {
         for (int x=0; x<mapWidth; x++) {
             for (int y=0; y<mapHeight; y++) {
                 int gVal = (int)(255*grayScale[x][y]);
-                g.setColor( new Color (gVal,gVal,gVal) );
+                if (state == State.SELECTED)
+                    g.setColor( new Color ((int)(gVal/1.1),(int)(gVal/1.1),gVal) );
+                else
+                    g.setColor( new Color (gVal,gVal,gVal) );
                 g.fillRect( x*blockWidth, y*blockHeight, blockWidth, blockHeight );
             }
         } 
@@ -142,16 +145,36 @@ public class CloudMapPanel extends Canvas implements MouseListener {
         }
     }
     @Override
-    public void mousePressed( MouseEvent arg0 ) {
-        if (state != State.INSPECTED) {
-            gui.inspect(this);
-            state = State.INSPECTED;
+    public void mousePressed( MouseEvent e ) {
+        if (e.getButton()==MouseEvent.BUTTON1)
+        switch (state) {
+            case INSPECTED:
+                state = State.SELECTED;
+                gui.viewOverView();
+                break;
+            case SELECTED:
+                state = State.MOUSEOVER;
+                break;
+            case MOUSEOVER:
+                state = State.SELECTED;
+                break;
         }
-        else {
-            gui.viewOverView();
-            state = State.MOUSEOVER;
+        else if (e.getButton()==MouseEvent.BUTTON3) {
+            if (state == State.MOUSEOVER || state == State.SELECTED) {
+                state = State.INSPECTED;
+                gui.inspect(this);
+            } else {
+                gui.viewOverView();
+                state = State.MOUSEOVER;
+            }
         }
+        repaint();
     }
+    
+    public boolean isSelected() {
+        return state==State.SELECTED;
+    }
+    
     @Override
     public void mouseReleased( MouseEvent arg0 ) {
         // TODO Auto-generated method stub
@@ -163,6 +186,9 @@ public class CloudMapPanel extends Canvas implements MouseListener {
     }
     public Generator getGenerator() {
         return myGen;
+    }
+    public void deselect() {
+        state = State.IDLE;
     }
 }
 

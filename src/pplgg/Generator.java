@@ -24,7 +24,7 @@ import agents.SwipingBombAgent;
 
 public class Generator {
 
-    public static final float maximumSpawnRadius = 10;
+    public static final float maximumSpawnRadius = 40;
     public static final int maximumSpawnTime = 200;
     public static final int minimumTokens = 10;
     public static final int maximumTokens = 80;
@@ -97,7 +97,7 @@ public class Generator {
                 break;
         }
         parameters.pos = new Position((int) (width*Math.random()), (int) (height*Math.random()));
-        parameters.spawnRadius = maximumSpawnRadius * Math.random();
+        parameters.spawnRadius = maximumSpawnRadius; // * Math.random();
         parameters.tokens = (int) (minimumTokens+(maximumTokens-minimumTokens)*Math.random());
         parameters.spawnTime = (int) (1+maximumSpawnTime*Math.random());
         parameters.waitingPeriod = (int) (1+(maximumWaitingTime-1)*Math.random());
@@ -122,7 +122,7 @@ public class Generator {
                 if (agentPar.spawnTime == steps) {
                     //pick a position inside the spawn circle
                     double direction = Math.random()*2*Math.PI;
-                    double distance = Math.random()*2*Math.PI;
+                    double distance = Math.random()*agentPar.spawnRadius;
                     int xPos = Math.max( Math.min((int)(agentPar.pos.x + distance * Math.cos( direction )),width-1), 0 );
                     int yPos = Math.max( Math.min((int)(agentPar.pos.y + distance * Math.sin( direction )),height-1), 0 );
                     Position spawnPos = new Position(xPos,yPos);
@@ -179,5 +179,14 @@ public class Generator {
 
     public int getNoAgents() {
         return agentComposition.size();
+    }
+    
+    public String toString() {
+        String s = "";
+        for (int i=0; i<agentComposition.size(); i++) {
+            s+="Agent "+(i+1)+": ";
+            s+=agentComposition.get( i ).agentClass + "\n";
+        }
+        return s;
     }
 }

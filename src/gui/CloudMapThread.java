@@ -13,11 +13,11 @@ public class CloudMapThread extends Thread {
     @Override
     public void run() {
 
-        while (cloudMap.getNoMaps()<100 && !stop) {
+        while (cloudMap.getNoMaps()<20 && !stop) {
 
             cloudMap.addMaps( 1 );
             try {
-                Thread.sleep( 10 );
+                Thread.sleep( 5 );
             }
             catch (InterruptedException e) {
                 // TODO Auto-generated catch block

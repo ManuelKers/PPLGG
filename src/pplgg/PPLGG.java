@@ -31,7 +31,7 @@ public class PPLGG {
 
     public static Generator runGA() {
         
-        GeneticAlgorithm geneticAlgorithm = new GeneticAlgorithm();
+        GeneticAlgorithm geneticAlgorithm = new GeneticAlgorithm(5);
         GeneratorIndividual fittestInd = (GeneratorIndividual) geneticAlgorithm.getFittestIndividual();
         
         System.out.println("Best generator has a fitness of: "+fittestInd.getFitness());

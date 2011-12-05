@@ -1,5 +1,9 @@
 package gui;
 
+import ga.GeneticAlgorithm;
+import ga.Individual;
+import ga.Population;
+
 import javax.swing.*;
 
 import mario.MarioLevel;
@@ -12,21 +16,28 @@ import dk.itu.mario.level.Level;
 import pplgg.Generator;
 import pplgg.Map;
 import pplgg.PPLGG.Terrain;
+import pplgg.ga.BlindFitness;
+import pplgg.ga.GeneratorIndividual;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 public class PPLGGGUI extends JFrame implements ActionListener {
 
     JButton newGeneratorButton;
     JButton redoButton;
+    JButton nextGenButton;
     MapPanel mapSamples[];
     CloudMapPanel generators[];
     CloudMapThread mapAdders[];
     CloudMapPanel inspectedGenerator;
     private JPanel generatorGrid;
     private JPanel inspectGrid;
+    private Population gaPop;
+    private BlindFitness fitFunc;
+    private static final int noGenerators = 20;
 
     MarioComponent marioComponent;
 
@@ -42,6 +53,13 @@ public class PPLGGGUI extends JFrame implements ActionListener {
         frame.createGUI();
         frame.setVisible(true); // Standaard = setVisible(false)
         frame.setResizable( false );
+        frame.startGA();
+    }
+
+    private void startGA() {
+        gaPop = new Population(20);
+        gaPop.initializeRandomly();
+        setGeneratorsToPopulation();
     }
 
     void createGUI() {
@@ -80,7 +98,7 @@ public class PPLGGGUI extends JFrame implements ActionListener {
         generatorGrid = new JPanel();
         GridLayout layout = new GridLayout(0,2,20,5);
         generatorGrid.setLayout(layout);
-        generators = new CloudMapPanel[20];
+        generators = new CloudMapPanel[noGenerators];
         for (int i=0; i<generators.length; i++) {
             generators[i] = new CloudMapPanel(this);
             generatorGrid.add( generators[i] );
@@ -100,6 +118,7 @@ public class PPLGGGUI extends JFrame implements ActionListener {
         redoButton.setEnabled(true);
 
         inspectedGenerator = cloudMapPanel;
+        System.out.println(cloudMapPanel.getGenerator().toString());
         inspectGrid = new JPanel();
         GridLayout layout = new GridLayout(0,2,20,5);
         inspectGrid.setLayout(layout);
@@ -112,13 +131,16 @@ public class PPLGGGUI extends JFrame implements ActionListener {
                 break;
         }
 
-        mapSamples = new MapPanel[19];
-        for (int i=0; i<mapSamples.length; i++) {
+        mapSamples = new MapPanel[noGenerators-1];
+        int count = 0;
+        for (int i=0; i<generators.length; i++) {
             if (i==index) 
                 inspectGrid.add( cloudMapPanel );
-            mapSamples[i] = new MapPanel(this);
-            inspectGrid.add( mapSamples[i] );
-
+            else {
+                mapSamples[count] = new MapPanel(this);
+                inspectGrid.add( mapSamples[count] );
+                count++;
+            }
         }
         newMapSamples();
 
@@ -154,6 +176,11 @@ public class PPLGGGUI extends JFrame implements ActionListener {
         newGeneratorButton.setActionCommand("newgens");
         newGeneratorButton.addActionListener( this );
         window.add( newGeneratorButton );
+        
+        nextGenButton = new JButton("Next Generation");
+        nextGenButton.setActionCommand("nextgen");
+        nextGenButton.addActionListener( this );
+        window.add( nextGenButton );
     }
 
     @Override
@@ -168,30 +195,38 @@ public class PPLGGGUI extends JFrame implements ActionListener {
                 closeMario();
             newMapSamples();
         } else if ("newgens".equals(e.getActionCommand())) {
-            if (mapAdders!=null) {
-                for (int i=0; i<mapAdders.length; i++) {
-                    mapAdders[i].stopAdding();
-                }
-            }
-            mapAdders = new CloudMapThread[generators.length];
-            for (int i=0; i<generators.length; i++) {
-                generators[i].setGenerator( Generator.randomGenerator() );
-                generators[i].clear();
-                mapAdders[i] = new CloudMapThread(generators[i]);
-                mapAdders[i].setPriority( Thread.MIN_PRIORITY );
-                mapAdders[i].start();
-                //generators[i].addMaps( 50 );
-            }
+            
+        } else if ("nextgen".equals(e.getActionCommand())) {
+            nextGeneration();
         }
     }
-//
-//    public void playMario( MapPanel mapPanel ) {
-//        MarioLevel marioLevel = new MarioLevel( mapPanel.getMap() );
-//        if (PlayCustomized.frame!=null)
-//            PlayCustomized.closeMario();
-//        
-//        PlayCustomized.main( new String[0],  marioLevel);
-//    }
+    
+    private void setGeneratorsToPopulation() {
+        if (mapAdders!=null) {
+            for (int i=0; i<mapAdders.length; i++) {
+                mapAdders[i].stopAdding();
+            }
+        }
+        ArrayList<Individual> individuals = gaPop.getIndividuals();
+        mapAdders = new CloudMapThread[generators.length];
+        for (int i=0; i<generators.length; i++) {
+            generators[i].setGenerator( ((GeneratorIndividual)individuals.get( i )).getGenerator() );
+            generators[i].clear();
+            mapAdders[i] = new CloudMapThread(generators[i]);
+            mapAdders[i].setPriority( Thread.MIN_PRIORITY );
+            mapAdders[i].start();
+        }
+    }
+    
+    private void nextGeneration() {
+        for (int i=0; i<generators.length; i++) 
+            if (generators[i].isSelected()) {
+                gaPop.setIndividualFitness( i, 1 );
+                generators[i].deselect();
+            }
+        gaPop.nextGeneration();
+        setGeneratorsToPopulation();
+    }
 
     public static MarioWindow marioFrame;
 
