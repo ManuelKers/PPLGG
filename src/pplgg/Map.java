@@ -40,6 +40,9 @@ public class Map {
                     case SOLID:
                         symbol = 'x'; 
                         break;
+                    case COIN:
+                    	symbol = 'c';
+                    	break;
                     default:
                         symbol = '?';
                         break;

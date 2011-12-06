@@ -11,7 +11,8 @@ public class PPLGG {
     
     public enum Terrain {
         EMPTY,
-        SOLID;
+        SOLID,
+        COIN;
     }
 
     public static void main (String[] args) {
