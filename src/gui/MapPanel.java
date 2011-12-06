@@ -53,6 +53,10 @@ public class MapPanel extends Canvas implements MouseListener {
                     if (myMap.getTerrain( x, y ) == Terrain.SOLID) {
                         g.fillRect( x*blockWidth, y*blockHeight, blockWidth, blockHeight );
                     }
+                    else if (myMap.getTerrain( x, y ) == Terrain.COIN) {
+                    	g.setColor(Color.yellow);
+                        g.fillRect( x*blockWidth, y*blockHeight, blockWidth, blockHeight );
+                    }
                 }   
             }
         }

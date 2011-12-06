@@ -13,6 +13,9 @@ public class MarioLevel extends Level {
             for (int y=1; y<height; y++) {
                 if (pplggMap.getTerrain( x, y-1 ) == Terrain.SOLID)
                     setBlock( x, y, ROCK );
+                if (pplggMap.getTerrain( x, y-1 ) == Terrain.COIN)
+                    setBlock( x, y, COIN);
+                
             }
         }
         xExit = width-10;
